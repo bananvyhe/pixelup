@@ -43,6 +43,8 @@ Rails 8 приложение с:
 - `APP_BASE_URL` для `successURL` YooMoney
 - `YOOMONEY_RECEIVER` или `credentials.yoomoney.receiver`
 - `YOOMONEY_NOTIFICATION_SECRET` или `credentials.yoomoney.notification_secret`
+- `SIDEKIQ_WEB_USERNAME` или `credentials.sidekiq.web_username`
+- `SIDEKIQ_WEB_PASSWORD` или `credentials.sidekiq.web_password`
 
 Секреты лучше хранить в `Rails credentials`:
 
@@ -58,6 +60,9 @@ jwt:
 yoomoney:
   receiver: "..."
   notification_secret: "..."
+sidekiq:
+  web_username: "admin"
+  web_password: "CHANGE_ME_SIDEKIQ_PASSWORD"
 app:
   base_url: "http://127.0.0.1:3000"
 ```
