@@ -22,8 +22,8 @@ async function handleLogout() {
   <div class="app-shell">
     <header class="topbar">
       <div>
-        <div class="eyebrow">Pixelup</div>
-        <h1>Платежи, доступ и тарификация клиентов</h1>
+        <div class="eyebrow">Pixeltech.ru</div>
+        <h1>приложение по цене хостинга</h1>
       </div>
       <nav class="nav" v-if="sessionState.authenticated">
         <RouterLink to="/dashboard" class="ghost">Кабинет</RouterLink>

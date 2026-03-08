@@ -43,12 +43,10 @@ async function submit() {
 <template>
   <main class="hero">
     <section class="card intro">
-      <div class="eyebrow">Vue 3 Composition API</div>
-      <h2>{{ mode === "login" ? "Вход в Pixelup" : "Регистрация в Pixelup" }}</h2>
+      <div class="eyebrow">Веб - разработка</div>
+      <h2>{{ mode === "login" ? "Вход в Pixeltech" : "Регистрация в Pixeltech" }}</h2>
       <p>
-        Авторизация на `jwt_sessions`, backend на Rails API, платежи через YooMoney,
-        почасовое списание через Sidekiq и управление тарифами из админки.
-      </p>
+        Проект стартуется на: backend - Rails API для более быстрого прототипирования, все уязвимые вычисления происходят здесь, фронтенд - Vue 3 Composition API для максимальной гибкости и реактивности интерфейсов, в случае высоконагруженных мест на сайте, производится вынос в модуль на более быстрый язык</p>
     </section>
 
     <section class="card form-card">

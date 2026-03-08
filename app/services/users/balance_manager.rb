@@ -4,7 +4,6 @@ module Users
       def apply_delta!(user:, amount_cents:, kind:, payment_transaction: nil, metadata: {}, lock: true)
         executor = lambda do
           new_balance = user.balance_cents + amount_cents
-          raise ArgumentError, "Balance cannot go below zero" if new_balance.negative?
 
           user.update!(balance_cents: new_balance)
           user.balance_ledger_entries.create!(

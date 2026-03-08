@@ -69,6 +69,19 @@ CSV запускается так:
 bundle exec rake users:import CSV=tmp/users.csv
 ```
 
+Импорт из старой базы Pixeltech:
+
+```bash
+OLD_DATABASE_URL=postgres://USER:PASS@HOST:5432/DBNAME bundle exec rake users:import_pixeltech
+```
+
+Если база доступна только на VPS, можно использовать SSH-туннель:
+
+```bash
+ssh -L 55432:127.0.0.1:5432 USER@YOUR_VPS
+OLD_DATABASE_URL=postgres://USER:PASS@127.0.0.1:55432/DBNAME bundle exec rake users:import_pixeltech
+```
+
 Поддерживаемые поля:
 
 - `email`

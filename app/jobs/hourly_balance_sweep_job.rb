@@ -14,12 +14,11 @@ class HourlyBalanceSweepJob
   def debit_user!(user, billing_hour)
     user.with_lock do
       return if user.last_hourly_charge_at.present? && user.last_hourly_charge_at >= billing_hour
-      return if user.balance_cents <= 0 || user.effective_hourly_rate_cents <= 0
+      return if user.effective_hourly_rate_cents <= 0
 
-      amount = [user.balance_cents, user.effective_hourly_rate_cents].min
       Users::BalanceManager.apply_delta!(
         user:,
-        amount_cents: -amount,
+        amount_cents: -user.effective_hourly_rate_cents,
         kind: :hourly_charge,
         metadata: { billed_hour: billing_hour.iso8601 },
         lock: false

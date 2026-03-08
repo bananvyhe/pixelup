@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :hourly_rate_cents, numericality: { greater_than_or_equal_to: 0 }
   validates :balance_cents, numericality: true
 
-  scope :billable, -> { where(active: true).where("balance_cents > 0") }
+  scope :billable, -> { where(active: true).where("COALESCE(hourly_rate_cents, 0) > 0 OR tariff_id IS NOT NULL") }
 
   def balance_rubles
     balance_cents / 100.0
