@@ -1,0 +1,15 @@
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids/
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+/node_modules
+/.bundle
+/vendor/bundle
+/config/master.key
+/db/*.sqlite3
+/db/*.sqlite3-*
+/.dev
