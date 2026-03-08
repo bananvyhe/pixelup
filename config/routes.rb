@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
     namespace :admin do
       resources :users, only: %i[index update]
-      resources :tariffs, only: %i[index create update]
+      resources :tariffs, only: %i[index create update destroy]
     end
   end
 

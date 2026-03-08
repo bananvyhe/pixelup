@@ -3,7 +3,7 @@ module Api
     class TariffsController < BaseController
       before_action :ensure_authenticated!
       before_action :ensure_admin!
-      before_action :set_tariff, only: %i[update]
+      before_action :set_tariff, only: %i[update destroy]
 
       def index
         render json: { tariffs: Tariff.order(:monthly_price_cents, :name).map { |tariff| tariff_payload(tariff) } }
@@ -24,6 +24,11 @@ module Api
         else
           render json: { errors: @tariff.errors.full_messages }, status: :unprocessable_entity
         end
+      end
+
+      def destroy
+        @tariff.destroy!
+        head :no_content
       end
 
       private

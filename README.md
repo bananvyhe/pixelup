@@ -9,6 +9,7 @@ Rails 8 приложение с:
 - пополнением через YooMoney
 - админкой со списком пользователей и редактированием прав
 - почасовым списанием средств через `Sidekiq`
+- расписанием периодических задач через `whenever`
 - импортом пользователей из CSV
 
 ## Запуск
@@ -24,7 +25,9 @@ Rails 8 приложение с:
    `bundle exec rails server -b 127.0.0.1 -p 3000`
 7. Запустить Vue frontend:
    `cd frontend && npm run dev -- --host 127.0.0.1`
-8. Запустить воркер:
+8. Применить расписание cron через whenever:
+   `./scripts/dev_apply_schedule.sh`
+9. Запустить воркер:
    `bundle exec sidekiq -C config/sidekiq.yml`
 
 Либо поднять dev-сервисы одной командой:

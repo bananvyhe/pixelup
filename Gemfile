@@ -18,7 +18,7 @@ gem "bcrypt", "~> 3.1"
 gem "jwt_sessions", "~> 3.2"
 gem "redis", "~> 5.4"
 gem "sidekiq", "~> 8.1"
-gem "sidekiq-cron", "~> 2.3"
+gem "whenever", require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -29,6 +29,7 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "minitest", "~> 5.25"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false

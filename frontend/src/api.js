@@ -40,5 +40,6 @@ export const api = {
   updateAdminUser: (id, payload) => request(`/api/admin/users/${id}`, { method: "PATCH", body: JSON.stringify(payload) }),
   adminTariffs: () => request("/api/admin/tariffs"),
   createTariff: (payload) => request("/api/admin/tariffs", { method: "POST", body: JSON.stringify(payload) }),
-  updateTariff: (id, payload) => request(`/api/admin/tariffs/${id}`, { method: "PATCH", body: JSON.stringify(payload) })
+  updateTariff: (id, payload) => request(`/api/admin/tariffs/${id}`, { method: "PATCH", body: JSON.stringify(payload) }),
+  deleteTariff: (id) => request(`/api/admin/tariffs/${id}`, { method: "DELETE" })
 }

@@ -8,7 +8,7 @@ const tariffs = ref([])
 const error = ref("")
 const tariffForm = reactive({
   name: "",
-  monthly_price_cents: 0,
+  monthly_price_rubles: "",
   billing_period_days: 30,
   description: "",
   active: true
@@ -43,12 +43,26 @@ async function saveUser(user) {
 
 async function createTariff() {
   try {
-    await api.createTariff(tariffForm)
+    await api.createTariff({
+      ...tariffForm,
+      monthly_price_cents: Math.round(Number(tariffForm.monthly_price_rubles || 0) * 100)
+    })
     tariffForm.name = ""
-    tariffForm.monthly_price_cents = 0
+    tariffForm.monthly_price_rubles = ""
     tariffForm.billing_period_days = 30
     tariffForm.description = ""
     tariffForm.active = true
+    await loadAdmin()
+  } catch (err) {
+    error.value = err.message
+  }
+}
+
+async function deleteTariff(tariff) {
+  if (!window.confirm(`Удалить тариф "${tariff.name}"?`)) return
+
+  try {
+    await api.deleteTariff(tariff.id)
     await loadAdmin()
   } catch (err) {
     error.value = err.message
@@ -63,13 +77,14 @@ onMounted(loadAdmin)
     <section class="card">
       <h2>Месячные тарифы</h2>
       <table>
-        <thead><tr><th>Название</th><th>Месяц</th><th>Час</th><th>Дней</th></tr></thead>
+        <thead><tr><th>Название</th><th>Цена в месяц</th><th>Списание в час</th><th>Дней</th><th></th></tr></thead>
         <tbody>
           <tr v-for="tariff in tariffs" :key="tariff.id">
             <td>{{ tariff.name }}</td>
             <td>{{ formatCurrency(tariff.monthly_price_cents) }}</td>
             <td>{{ formatCurrency(tariff.hourly_rate_cents) }}</td>
             <td>{{ tariff.billing_period_days }}</td>
+            <td><button class="danger" @click="deleteTariff(tariff)">Удалить</button></td>
           </tr>
         </tbody>
       </table>
@@ -79,7 +94,7 @@ onMounted(loadAdmin)
       <h2>Новый тариф</h2>
       <div class="form-grid">
         <input v-model="tariffForm.name" placeholder="Название" />
-        <input v-model="tariffForm.monthly_price_cents" type="number" min="0" step="1" placeholder="Цена в месяц, коп." />
+        <input v-model="tariffForm.monthly_price_rubles" type="number" min="0" step="0.01" placeholder="Цена в месяц, руб." />
         <input v-model="tariffForm.billing_period_days" type="number" min="1" step="1" placeholder="Дней" />
         <textarea v-model="tariffForm.description" rows="3" placeholder="Описание"></textarea>
         <label class="checkbox">

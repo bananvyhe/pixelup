@@ -6,14 +6,27 @@ This file is a running checklist of practical fixes that should be applied early
 
 - Local development:
   - Run native (no Docker for now).
+  - Keep the full dev environment up during active work:
+    - PostgreSQL
+    - Redis
+    - Rails API
+    - Sidekiq worker
+    - Vue frontend
   - Use project scripts:
-    - `make up-native-full`
-    - `make down-native`
+    - `./scripts/dev_services_up.sh`
+    - `./scripts/dev_up.sh`
+    - `./scripts/dev_services_down.sh`
 - Production / VPS:
   - Deploy in Docker.
   - Keep CI image build always enabled.
   - Push image to registry manually when needed (release/deploy moment).
-  - Sidekiq is not used in this project, but should remain in template notes for future projects.
+  - Periodic jobs are scheduled through `whenever`.
+
+## 0.1) Architecture rules
+
+- Frontend is always `Vue 3 Composition API`.
+- Rails is used as API/backend and owns all sensitive calculations and security logic.
+- Do not fall back to server-rendered HTML as the main UI path unless explicitly requested.
 
 ## 1) Native startup reliability
 
@@ -73,15 +86,15 @@ This file is a running checklist of practical fixes that should be applied early
 - Source of truth:
   - `docs/STACK.md`
 
-## 4) Background jobs (future projects)
+## 4) Background jobs
 
 - Current project:
-  - Sidekiq is intentionally not used.
-- For next projects:
-  - Plan Redis + Sidekiq from start.
+  - Use Redis + Sidekiq.
+  - Schedule recurring jobs through `whenever`.
+- Required baseline:
   - Add process supervision for worker startup/shutdown.
   - In Docker deploy include a separate Sidekiq service/container.
-  - In native dev provide dedicated start/stop scripts and PID handling like web process.
+  - In native dev provide dedicated start/stop scripts and scheduling setup.
 
 ## 5) Frontend data loading
 
