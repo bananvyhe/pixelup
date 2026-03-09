@@ -42,6 +42,32 @@ Rails 8 приложение с:
 ./scripts/dev_up.sh
 ```
 
+## Production / VPS
+
+Для продового деплоя подготовлен docker stack в [docker-compose.prod.yml](/Users/rufus/workspace/projects/pixelup/docker-compose.prod.yml):
+
+- `postgres`
+- `redis`
+- `web` (`Rails + Puma`)
+- `sidekiq`
+- `scheduler` (`whenever + cron`)
+- `frontend` (`Nginx` со статическим Vue build и proxy на Rails API)
+
+Под домен `https://pixeltech.ru` нужен файл окружения:
+
+```bash
+cp .env.production.example .env.production
+```
+
+Дальше заполнить секреты в `.env.production` и запустить:
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+Frontend-контейнер слушает `127.0.0.1:8080` и предназначен для внешнего reverse proxy на VPS.
+Если у вас уже есть общий Nginx/Caddy/Traefik на сервере, его нужно направить на `127.0.0.1:8080` для домена `pixeltech.ru`.
+
 ## Переменные окружения
 
 - `JWT_SIGNING_KEY` или `credentials.jwt.signing_key`
