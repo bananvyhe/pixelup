@@ -7,12 +7,23 @@ export const sessionState = reactive({
   user: null
 })
 
-export async function loadSession() {
-  const data = await api.currentSession()
+export function clearSession() {
   sessionState.ready = true
-  sessionState.authenticated = data.authenticated
-  sessionState.user = data.user || null
-  return data
+  sessionState.authenticated = false
+  sessionState.user = null
+}
+
+export async function loadSession() {
+  try {
+    const data = await api.currentSession()
+    sessionState.ready = true
+    sessionState.authenticated = data.authenticated
+    sessionState.user = data.user || null
+    return data
+  } catch (error) {
+    clearSession()
+    throw error
+  }
 }
 
 export async function login(credentials) {
@@ -31,6 +42,5 @@ export async function register(credentials) {
 
 export async function logout() {
   await api.logout()
-  sessionState.authenticated = false
-  sessionState.user = null
+  clearSession()
 }

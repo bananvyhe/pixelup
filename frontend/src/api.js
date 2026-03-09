@@ -11,7 +11,8 @@ export function setCsrfToken(token) {
 
 async function request(url, options = {}) {
   const headers = { ...jsonHeaders, ...(options.headers || {}) }
-  if (csrfToken && !["GET", "HEAD"].includes((options.method || "GET").toUpperCase())) {
+  const method = (options.method || "GET").toUpperCase()
+  if (csrfToken && !["GET", "HEAD"].includes(method)) {
     headers["X-CSRF-Token"] = csrfToken
   }
 
@@ -23,6 +24,13 @@ async function request(url, options = {}) {
   const data = await response.json().catch(() => ({}))
   if (data.csrf_token) setCsrfToken(data.csrf_token)
   if (!response.ok) {
+    if (response.status === 401) {
+      window.dispatchEvent(
+        new CustomEvent("pixelup:unauthorized", {
+          detail: { path: url, method }
+        })
+      )
+    }
     throw new Error(data.error || (data.errors && data.errors.join(", ")) || "Request failed")
   }
   return data

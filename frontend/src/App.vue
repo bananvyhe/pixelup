@@ -1,15 +1,37 @@
 <script setup>
-import { onMounted } from "vue"
+import { onMounted, onUnmounted } from "vue"
 import { useRouter } from "vue-router"
-import { loadSession, logout, sessionState } from "./useSession"
+import { clearSession, loadSession, logout, sessionState } from "./useSession"
 
 const router = useRouter()
 
-onMounted(async () => {
-  await loadSession()
-  if (sessionState.authenticated && router.currentRoute.value.path === "/login") {
-    router.replace("/dashboard")
+async function handleUnauthorized() {
+  clearSession()
+  if (router.currentRoute.value.path !== "/login") {
+    await router.replace("/login")
   }
+}
+
+onMounted(async () => {
+  window.addEventListener("pixelup:unauthorized", handleUnauthorized)
+
+  try {
+    await loadSession()
+    if (sessionState.authenticated && router.currentRoute.value.path === "/login") {
+      router.replace(sessionState.user?.role === "admin" ? "/admin" : "/dashboard")
+    }
+    if (!sessionState.authenticated && router.currentRoute.value.path !== "/login") {
+      router.replace("/login")
+    }
+  } catch {
+    if (router.currentRoute.value.path !== "/login") {
+      router.replace("/login")
+    }
+  }
+})
+
+onUnmounted(() => {
+  window.removeEventListener("pixelup:unauthorized", handleUnauthorized)
 })
 
 async function handleLogout() {

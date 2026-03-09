@@ -1,4 +1,4 @@
-redis_url = ENV.fetch("REDIS_URL", "redis://127.0.0.1:6379/0")
+redis_url = RuntimeConfig.redis_url
 
 Sidekiq.configure_server do |config|
   config.redis = { url: redis_url }

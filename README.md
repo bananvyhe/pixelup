@@ -30,6 +30,12 @@ Rails 8 приложение с:
 9. Запустить воркер:
    `bundle exec sidekiq -C config/sidekiq.yml`
 
+Если меняли `config/schedule.rb`, credentials или Ruby/toolchain, заново примените cron:
+
+```bash
+./scripts/dev_apply_schedule.sh
+```
+
 Либо поднять dev-сервисы одной командой:
 
 ```bash
@@ -39,12 +45,13 @@ Rails 8 приложение с:
 ## Переменные окружения
 
 - `JWT_SIGNING_KEY` или `credentials.jwt.signing_key`
-- `REDIS_URL`
+- `REDIS_URL` или `credentials.redis.url`
 - `APP_BASE_URL` для `successURL` YooMoney
 - `YOOMONEY_RECEIVER` или `credentials.yoomoney.receiver`
 - `YOOMONEY_NOTIFICATION_SECRET` или `credentials.yoomoney.notification_secret`
 - `SIDEKIQ_WEB_USERNAME` или `credentials.sidekiq.web_username`
 - `SIDEKIQ_WEB_PASSWORD` или `credentials.sidekiq.web_password`
+- `PGHOST` / `PGPORT` / `PGUSER` / `PGPASSWORD` / `PGDATABASE` или `credentials.postgres.*`
 
 Секреты лучше хранить в `Rails credentials`:
 
@@ -57,6 +64,23 @@ EDITOR=nano bin/rails credentials:edit
 ```yml
 jwt:
   signing_key: "..."
+
+postgres:
+  host: "127.0.0.1"
+  port: 5432
+  username: "rufus"
+  password: ""
+  development_database: "pixelup_development"
+  test_database: "pixelup_test"
+  production_database: "pixelup_production"
+
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  db: 0
+  password: ""
+  url: ""
+
 yoomoney:
   receiver: "..."
   notification_secret: "..."

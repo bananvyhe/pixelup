@@ -16,25 +16,31 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("PGHOST", "127.0.0.1") %>
-  port: <%= ENV.fetch("PGPORT", 5432) %>
-  username: <%= ENV.fetch("PGUSER", ENV.fetch("USER", "postgres")) %>
-  password: <%= ENV["PGPASSWORD"] %>
 
 development:
   <<: *default
-  database: pixelup_development
+  host: <%= ENV.fetch("PGHOST", Rails.application.credentials.dig(:postgres, :host) || "127.0.0.1") %>
+  port: <%= ENV.fetch("PGPORT", Rails.application.credentials.dig(:postgres, :port) || 5432) %>
+  username: <%= ENV.fetch("PGUSER", Rails.application.credentials.dig(:postgres, :username) || ENV.fetch("USER", "postgres")) %>
+  password: <%= ENV["PGPASSWORD"] || Rails.application.credentials.dig(:postgres, :password) %>
+  database: <%= ENV.fetch("PGDATABASE", Rails.application.credentials.dig(:postgres, :development_database) || "pixelup_development") %>
 
 test:
   <<: *default
-  database: pixelup_test
+  host: <%= ENV.fetch("PGHOST", Rails.application.credentials.dig(:postgres, :host) || "127.0.0.1") %>
+  port: <%= ENV.fetch("PGPORT", Rails.application.credentials.dig(:postgres, :port) || 5432) %>
+  username: <%= ENV.fetch("PGUSER", Rails.application.credentials.dig(:postgres, :username) || ENV.fetch("USER", "postgres")) %>
+  password: <%= ENV["PGPASSWORD"] || Rails.application.credentials.dig(:postgres, :password) %>
+  database: <%= ENV.fetch("PGDATABASE", Rails.application.credentials.dig(:postgres, :test_database) || "pixelup_test") %>
 
 production:
   primary: &primary_production
     <<: *default
-    database: pixelup_production
-    username: <%= ENV.fetch("PGUSER", "pixelup") %>
-    password: <%= ENV["PIXELUP_DATABASE_PASSWORD"] %>
+    host: <%= ENV.fetch("PGHOST", Rails.application.credentials.dig(:postgres, :host) || "127.0.0.1") %>
+    port: <%= ENV.fetch("PGPORT", Rails.application.credentials.dig(:postgres, :port) || 5432) %>
+    database: <%= ENV.fetch("PGDATABASE", Rails.application.credentials.dig(:postgres, :production_database) || "pixelup_production") %>
+    username: <%= ENV.fetch("PGUSER", Rails.application.credentials.dig(:postgres, :username) || "pixelup") %>
+    password: <%= ENV["PIXELUP_DATABASE_PASSWORD"] || ENV["PGPASSWORD"] || Rails.application.credentials.dig(:postgres, :password) %>
   cache:
     <<: *primary_production
     database: pixelup_production_cache
