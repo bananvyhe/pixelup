@@ -44,8 +44,8 @@ async function handleLogout() {
   <div class="app-shell">
     <header class="topbar">
       <div>
+        <h1>Веб-разработка по цене хостинга</h1>
         <div class="eyebrow">Pixeltech.ru</div>
-        <h1>приложение по цене хостинга</h1>
       </div>
       <nav class="nav" v-if="sessionState.authenticated">
         <RouterLink to="/dashboard" class="ghost">Кабинет</RouterLink>

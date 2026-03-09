@@ -14,7 +14,9 @@
 body {
   margin: 0;
 }
-
+form{
+ 
+}
 button,
 input,
 select,
@@ -23,6 +25,7 @@ textarea {
 }
 
 button {
+  margin: 0.85rem 0 ;
   border: none;
   border-radius: 999px;
   padding: 0.85rem 1.2rem;
@@ -48,11 +51,11 @@ select,
 textarea {
   width: 100%;
   border: 1px solid #d8c6b2;
-  border-radius: 18px;
+  border-radius: 6px;
   padding: 0.85rem 1rem;
   background: rgba(255,255,255,0.82);
 }
-
+ 
 .app-shell {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;

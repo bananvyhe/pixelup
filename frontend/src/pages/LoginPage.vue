@@ -56,23 +56,25 @@ async function submit() {
 <template>
   <main class="hero">
     <section class="card intro">
-      <div class="eyebrow">Веб - разработка</div>
-      <h2>{{ mode === "login" ? "Вход в Pixeltech" : "Регистрация в Pixeltech" }}</h2>
+      <div class="eyebrow" >программирование, дизайн</div>
+     
       <p>
-        Проект стартуется на: backend - Rails API для более быстрого прототипирования, все уязвимые вычисления происходят здесь, фронтенд - Vue 3 Composition API для максимальной гибкости и реактивности интерфейсов, в случаях высоконагруженных мест на сайте, производится вынос в модуль на более быстрый язык
+        Проект стартует на: backend - Rails API для более быстрого прототипирования, все уязвимые вычисления происходят здесь, фронтенд - Vue 3 Composition API для максимальной гибкости и реактивности интерфейсов, в случаях высоконагруженных мест на сайте, производится вынос в модуль на более быстрый язык
       </p>
     </section>
 
     <section class="card form-card">
+        <h3>{{ mode === "login" ? "Войти" : "Создать аккаунт" }}</h3>
       <div class="button-row">
         <button :class="{ ghost: mode !== 'login' }" @click="mode = 'login'">Вход</button>
         <button :class="{ ghost: mode !== 'register' }" @click="mode = 'register'">Регистрация</button>
       </div>
 
-      <h3>{{ mode === "login" ? "Войти" : "Создать аккаунт" }}</h3>
+    
       <p v-if="error" class="error">{{ error }}</p>
 
       <form novalidate @submit.prevent="submit">
+        <div >
         <label>
           E-mail
           <input v-model="form.email" type="text" inputmode="email" autocomplete="email" />
@@ -80,7 +82,8 @@ async function submit() {
             {{ !form.email ? "Введите e-mail" : isEmailValid ? "E-mail выглядит корректно" : "Некорректный формат e-mail" }}
           </span>
         </label>
-
+        </div>
+        
         <label>
           Пароль
           <input v-model="form.password" type="password" autocomplete="current-password" />
@@ -88,7 +91,7 @@ async function submit() {
             {{ !form.password ? "Введите пароль" : isPasswordLongEnough ? "Минимальная длина соблюдена" : "Пароль должен быть не короче 8 символов" }}
           </span>
         </label>
-
+        <br>
         <label v-if="mode === 'register'">
           Повторите пароль
           <input v-model="form.passwordConfirmation" type="password" autocomplete="new-password" />
@@ -102,7 +105,7 @@ async function submit() {
             }}
           </span>
         </label>
-
+        <br>
         <button :disabled="loading || (mode === 'login' ? !canLogin : !canRegister)">
           {{
             loading
