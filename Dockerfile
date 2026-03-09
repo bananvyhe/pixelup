@@ -45,8 +45,8 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Precompile assets with build-time dummy secrets; runtime values come from env.
+RUN SECRET_KEY_BASE_DUMMY=1 JWT_SIGNING_KEY=dummy-build-key APP_BASE_URL=https://pixeltech.ru ./bin/rails assets:precompile
 
 
 
@@ -61,6 +61,7 @@ COPY --from=build /rails /rails
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+    mkdir -p db log tmp tmp/pids tmp/cache tmp/sockets && \
     chown -R rails:rails db log tmp
 USER 1000:1000
 
