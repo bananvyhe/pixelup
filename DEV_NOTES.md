@@ -14,3 +14,19 @@
     - Sidekiq
     - Vite frontend
   - Periodic jobs are scheduled through `whenever`, not `sidekiq-cron`.
+  - Production deploy is Docker-only.
+  - Use `./scripts/deploy_prod.sh` for VPS deploys from the local machine.
+  - In this template `config/credentials.yml.enc` is baked into the Docker image.
+  - After any credentials change, rebuild affected app containers; `restart` is not enough.
+  - Keep infrastructure secrets in server `.env.production` only when they are needed before Rails boot:
+    - `RAILS_MASTER_KEY`
+    - `POSTGRES_PASSWORD`
+  - App secrets belong in `Rails credentials`:
+    - `jwt`
+    - `sidekiq`
+    - `yoomoney`
+    - app-level production notes
+  - `Sidekiq Web` auth is separate from site users.
+  - Imported users do not guarantee billing works:
+    - verify tariffs/manual hourly rates after import
+    - verify cron enqueue and `hourly_charge` ledger rows in production

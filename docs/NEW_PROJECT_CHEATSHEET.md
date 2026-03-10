@@ -95,6 +95,30 @@ This file is a running checklist of practical fixes that should be applied early
   - Add process supervision for worker startup/shutdown.
   - In Docker deploy include a separate Sidekiq service/container.
   - In native dev provide dedicated start/stop scripts and scheduling setup.
+  - In Docker deploy include a separate scheduler container for `whenever + cron`.
+
+- Common failure modes:
+  - Cron exists but no списания appear:
+    - inspect `scheduler` container logs
+    - inspect container crontab
+    - confirm `sidekiq` is alive
+    - confirm users actually have `effective_hourly_rate_cents > 0`
+  - Imported users may have zero tariff/manual hourly rate after migration.
+  - Then scheduler works, but no `hourly_charge` rows are created.
+
+## 4.1) Production secrets and deploy
+
+- If `Rails credentials` are copied into the repo and then baked into Docker image:
+  - updating `config/credentials.yml.enc` on the server filesystem is not enough
+  - you must rebuild the app images
+- Keep a local deploy script in the template from day one:
+  - sync project files
+  - sync `config/credentials.yml.enc`
+  - never sync `config/master.key`
+  - rebuild and restart target services
+- Keep `RAILS_MASTER_KEY` in server env, not as a file in the repo checkout on VPS.
+- Keep infra secrets like `POSTGRES_PASSWORD` in server env because Docker/Postgres need them before Rails boots.
+- Keep app secrets in `Rails credentials`.
 
 ## 5) Frontend data loading
 

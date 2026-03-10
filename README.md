@@ -68,6 +68,46 @@ docker compose -f docker-compose.prod.yml up -d --build
 Frontend-контейнер слушает `127.0.0.1:8080` и предназначен для внешнего reverse proxy на VPS.
 Если у вас уже есть общий Nginx/Caddy/Traefik на сервере, его нужно направить на `127.0.0.1:8080` для домена `pixeltech.ru`.
 
+Быстрый деплой ваших изменений с локальной машины:
+
+```bash
+./scripts/deploy_prod.sh
+```
+
+Можно деплоить только часть сервисов:
+
+```bash
+./scripts/deploy_prod.sh web sidekiq scheduler
+```
+
+Скрипт:
+
+- копирует проект в `/srv/pixelup`
+- синхронизирует `config/credentials.yml.enc`
+- не копирует `config/master.key` и `.env.production`
+- запускает `docker compose ... up -d --build`
+
+### Production Caveats
+
+- `Rails credentials` в этом проекте baked into Docker image.
+- После любого изменения `config/credentials.yml.enc` недостаточно `restart`.
+- Нужно пересобирать контейнеры:
+
+```bash
+./scripts/deploy_prod.sh web sidekiq scheduler
+```
+
+- `Sidekiq Web` использует отдельный basic auth из `credentials.sidekiq.*`.
+- Это не логин пользователя сайта.
+- Канонический URL панели: `https://pixeltech.ru/sidekiq/`
+- При проверке `whenever` учитывайте, что cron в контейнере идёт по часу сервера/контейнера.
+- Нулевая статистика списаний не всегда значит, что cron сломан:
+  часто у пользователей просто `hourly_rate_cents = 0` и нет назначенного тарифа.
+- После импорта пользователей из старого проекта нужно отдельно проверить:
+  - назначены ли тарифы
+  - есть ли ненулевая почасовая ставка
+  - есть ли записи `hourly_charge` в `balance_ledger_entries`
+
 ## Переменные окружения
 
 - `JWT_SIGNING_KEY` или `credentials.jwt.signing_key`
@@ -118,6 +158,7 @@ app:
 ```
 
 `config/master.key` нельзя коммитить в репозиторий.
+На сервер `master key` передаётся через `RAILS_MASTER_KEY` в `.env.production`, а не отдельным файлом.
 
 ## Импорт пользователей
 
