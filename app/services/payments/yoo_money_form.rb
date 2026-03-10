@@ -28,13 +28,13 @@ module Payments
 
     def base_fields
       fields = {
-        receiver:,
-        quickpay_form: "shop",
-        targets: "Пополнение баланса #{payment_transaction.user.email}",
-        payment_sum: payment_transaction.requested_amount_rubles,
-        label: payment_transaction.label
+        "receiver" => receiver,
+        "quickpay-form" => "shop",
+        "targets" => "Пополнение баланса #{payment_transaction.user.email}",
+        "sum" => payment_transaction.requested_amount_rubles,
+        "label" => payment_transaction.label
       }
-      fields[:successURL] = success_url if success_url.present?
+      fields["successURL"] = success_url if success_url.present?
       fields
     end
 
