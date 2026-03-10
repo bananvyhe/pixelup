@@ -74,7 +74,7 @@ onMounted(loadDashboard)
 
     <section class="card">
       <h2>Пополнить баланс</h2>
-      <p class="muted">Пользователю зачисляется ровно оплаченная сумма. Комиссии вы компенсируете отдельно.</p>
+      <p class="muted">Списание происходит равными долями каждый час</p>
       <div class="pay-box">
         <input v-model="amountRubles" type="number" min="1" step="0.01" placeholder="Сумма в рублях" />
         <div class="button-row">

@@ -17,7 +17,7 @@ module Payments
           status: :paid,
           paid_at: Time.current,
           provider_operation_id: params["operation_id"],
-          credited_amount_cents: credited_amount_cents,
+          credited_amount_cents: credited_amount_cents(payment),
           provider_net_amount_cents: net_amount_cents,
           provider_payload: params
         )
@@ -44,8 +44,9 @@ module Payments
 
     attr_reader :params
 
-    def credited_amount_cents
-      amount_to_cents(params["withdraw_amount"].presence || params["amount"])
+    def credited_amount_cents(payment)
+      # Credit exactly what user requested, regardless of provider fees.
+      payment.requested_amount_cents
     end
 
     def net_amount_cents
