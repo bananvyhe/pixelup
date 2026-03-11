@@ -3,8 +3,8 @@ set :environment, ENV.fetch("RAILS_ENV", "development")
 
 set :job_template, "/bin/bash -lc ':job'"
 
-env :RAILS_MASTER_KEY, ENV["RAILS_MASTER_KEY"] if ENV["RAILS_MASTER_KEY"].present?
-env :JWT_SIGNING_KEY, ENV["JWT_SIGNING_KEY"] if ENV["JWT_SIGNING_KEY"].present?
+env :RAILS_MASTER_KEY, ENV["RAILS_MASTER_KEY"] if ENV["RAILS_MASTER_KEY"] && !ENV["RAILS_MASTER_KEY"].empty?
+env :JWT_SIGNING_KEY, ENV["JWT_SIGNING_KEY"] if ENV["JWT_SIGNING_KEY"] && !ENV["JWT_SIGNING_KEY"].empty?
 
 job_type :rails_runner_in_app,
          "export BUNDLE_PATH=\"${BUNDLE_PATH:-/usr/local/bundle}\"; " \
