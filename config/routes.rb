@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   resources :payment_transactions, path: "payments", only: %i[create show]
 
   post "payments/yoomoney/notifications", to: "yoo_money_notifications#create", as: :yoo_money_notifications
+  # Legacy YooMoney webhook path seen in logs.
+  post "api/v1/inb", to: "yoo_money_notifications#create"
 
   namespace :admin do
     resources :tariffs, except: %i[show destroy]
