@@ -78,31 +78,6 @@ services:
         condition: service_healthy
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
-  scheduler:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    user: "0:0"
-    env_file:
-      - .env.production
-    environment:
-      RAILS_ENV: production
-      PGHOST: postgres
-      PGPORT: 5432
-      PGUSER: ${POSTGRES_USER:-pixelup}
-      PGPASSWORD: ${POSTGRES_PASSWORD}
-      PGDATABASE: ${POSTGRES_DB:-pixelup_production}
-      REDIS_URL: redis://redis:6379/0
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      web:
-        condition: service_healthy
-    command: ["/bin/bash", "./scripts/docker_scheduler.sh"]
-
   frontend:
     build:
       context: .

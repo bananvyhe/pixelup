@@ -9,7 +9,7 @@ ENV_FILE="${DEPLOY_ENV_FILE:-.env.production}"
 if [ "$#" -gt 0 ]; then
   SERVICES=("$@")
 else
-  SERVICES=(web sidekiq scheduler frontend)
+  SERVICES=(web sidekiq frontend)
 fi
 
 echo "Deploy host: $REMOTE_HOST"

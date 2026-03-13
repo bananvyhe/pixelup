@@ -21,11 +21,6 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 ) &
 
 (
-  cd "$ROOT_DIR"
-  ./scripts/dev_apply_schedule.sh
-) &
-
-(
   cd "$ROOT_DIR/frontend"
   npm run dev -- --host 127.0.0.1
 ) &

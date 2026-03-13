@@ -18,7 +18,7 @@ gem "bcrypt", "~> 3.1"
 gem "jwt_sessions", "~> 3.2"
 gem "redis", "~> 5.4"
 gem "sidekiq", "~> 8.1"
-gem "whenever", require: false
+gem "sidekiq-cron", "~> 1.10"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
