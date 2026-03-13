@@ -18,6 +18,11 @@
   - Use `./scripts/deploy_prod.sh` for VPS deploys from the local machine.
   - In this template `config/credentials.yml.enc` is baked into the Docker image.
   - After any credentials change, rebuild affected app containers; `restart` is not enough.
+  - Billing: balances may go negative. Do not block hourly charges on negative balances.
+  - Billing schedule:
+    - Development: every 3 minutes (local crontab via `whenever`).
+    - Production: every 60 minutes (scheduler container via `whenever` + cron).
+    - Interval can be overridden with `BILLING_INTERVAL_MINUTES`.
   - Keep infrastructure secrets in server `.env.production` only when they are needed before Rails boot:
     - `RAILS_MASTER_KEY`
     - `POSTGRES_PASSWORD`

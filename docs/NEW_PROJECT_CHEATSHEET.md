@@ -91,11 +91,19 @@ This file is a running checklist of practical fixes that should be applied early
 - Current project:
   - Use Redis + Sidekiq.
   - Schedule recurring jobs through `whenever`.
+  - Billing can go negative; do not block charges on negative balances.
 - Required baseline:
   - Add process supervision for worker startup/shutdown.
   - In Docker deploy include a separate Sidekiq service/container.
   - In native dev provide dedicated start/stop scripts and scheduling setup.
   - In Docker deploy include a separate scheduler container for `whenever + cron`.
+  - Keep environment-specific scheduling:
+    - Dev: shorter interval (3 min) for fast feedback.
+    - Prod: hourly interval.
+    - Use `BILLING_INTERVAL_MINUTES` to override safely.
+  - Cron needs full env in production:
+    - pass `RAILS_MASTER_KEY` to scheduler crontab
+    - ensure Bundler path is set for the container
 
 - Common failure modes:
   - Cron exists but no списания appear:
