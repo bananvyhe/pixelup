@@ -9,8 +9,6 @@ env :JWT_SIGNING_KEY, ENV["JWT_SIGNING_KEY"] if ENV["JWT_SIGNING_KEY"] && !ENV["
 
 job_type :rails_runner_in_app,
          "if [ \":environment\" = \"development\" ] || [ \":environment\" = \"test\" ]; then " \
-         "export BUNDLE_PATH=\"$HOME/.local/share/mise/installs/ruby/$(ruby -e 'puts RUBY_VERSION')/lib/ruby/gems/$(ruby -e 'puts RUBY_VERSION')\"; " \
-         "export GEM_HOME=\"$BUNDLE_PATH\"; " \
          "export PATH=\"$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH\"; " \
          "else " \
          "export BUNDLE_PATH=\"${BUNDLE_PATH:-/usr/local/bundle}\"; " \
