@@ -12,6 +12,11 @@ Rails 8 приложение с:
 - расписанием периодических задач через `sidekiq-cron`
 - импортом пользователей из CSV
 
+## Frontend UI
+
+Правила по Vuetify, теме и UI-конвенциям:
+`/Users/rufus/workspace/projects/pixelup/docs/vuetify.md`
+
 ## Запуск
 
 1. Выполнить `bundle install`.

@@ -196,6 +196,17 @@ textarea {
   text-transform: none;
   font-weight: 600;
   letter-spacing: 0.02em;
+  
+ 
+}
+
+.auth-tabs .v-tabs__slider {
+  display: none;
+}
+
+.auth-tabs .v-tab--selected {
+ 
+  color: white;
 }
 
 table {

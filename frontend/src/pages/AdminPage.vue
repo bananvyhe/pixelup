@@ -84,7 +84,17 @@ onMounted(loadAdmin)
             <td>{{ formatCurrency(tariff.monthly_price_cents) }}</td>
             <td>{{ formatCurrency(tariff.hourly_rate_cents) }}</td>
             <td>{{ tariff.billing_period_days }}</td>
-            <td><button class="danger" @click="deleteTariff(tariff)">Удалить</button></td>
+            <td>
+              <v-btn
+                icon="mdi-delete"
+                variant="tonal"
+                color="error"
+                size="small"
+                aria-label="Удалить тариф"
+                title="Удалить тариф"
+                @click="deleteTariff(tariff)"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
