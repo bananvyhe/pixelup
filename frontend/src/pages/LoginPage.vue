@@ -68,7 +68,7 @@ async function submit() {
 
     <section class="card form-card">
         <h3>{{ mode === "login" ? "Войти" : "Создать аккаунт" }}</h3>
-      <v-tabs v-model="mode"  color="primary" grow >
+      <v-tabs v-model="mode"  color="primary" grow class="mb-2">
         <v-tab value="login">Вход</v-tab>
         <v-tab value="register">Регистрация</v-tab>
       </v-tabs>
