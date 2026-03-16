@@ -20,7 +20,9 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <!-- Google tag (gtag.js) -->
+
+    <% if Rails.env.production? %>
+      <!-- Google tag (gtag.js) -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-PPKP0L3CY7"></script>
       <script>
         window.dataLayer = window.dataLayer || [];
@@ -29,6 +31,13 @@
 
         gtag('config', 'G-PPKP0L3CY7');
       </script>
+  
+    <% else %>
+      <!-- Yandex.Metrika counter disabled in non-production -->
+    <% end %>
+
+
+
 
   </head>
 

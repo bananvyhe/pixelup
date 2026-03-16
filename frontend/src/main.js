@@ -4,6 +4,7 @@ import App from "./App.vue"
 import LoginPage from "./pages/LoginPage.vue"
 import DashboardPage from "./pages/DashboardPage.vue"
 import AdminPage from "./pages/AdminPage.vue"
+import vuetify from "./plugins/vuetify"
 import "./styles.css"
 
 const routes = [
@@ -18,4 +19,4 @@ const router = createRouter({
   routes
 })
 
-createApp(App).use(router).mount("#app")
+createApp(App).use(router).use(vuetify).mount("#app")

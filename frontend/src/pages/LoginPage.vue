@@ -68,10 +68,10 @@ async function submit() {
 
     <section class="card form-card">
         <h3>{{ mode === "login" ? "Войти" : "Создать аккаунт" }}</h3>
-      <div class="button-row">
-        <button :class="{ ghost: mode !== 'login' }" @click="mode = 'login'">Вход</button>
-        <button :class="{ ghost: mode !== 'register' }" @click="mode = 'register'">Регистрация</button>
-      </div>
+      <v-tabs v-model="mode" class="auth-tabs" grow>
+        <v-tab value="login">Вход</v-tab>
+        <v-tab value="register">Регистрация</v-tab>
+      </v-tabs>
 
     
       <p v-if="error" class="error">{{ error }}</p>
@@ -109,13 +109,20 @@ async function submit() {
           </span>
         </label>
         <br>
-        <button :disabled="loading || (mode === 'login' ? !canLogin : !canRegister)">
+        <v-btn
+          :disabled="loading || (mode === 'login' ? !canLogin : !canRegister)"
+          color="primary"
+          rounded="xl"
+          size="large"
+          block
+          type="submit"
+        >
           {{
             loading
               ? mode === "login" ? "Входим..." : "Регистрируем..."
               : mode === "login" ? "Войти" : "Зарегистрироваться"
           }}
-        </button>
+        </v-btn>
       </form>
     </section>
   </main>

@@ -1,10 +1,17 @@
 :root {
   color-scheme: light;
   font-family: "Manrope", sans-serif;
-  color: #16120f;
+  --pixelup-primary: #c75923;
+  --pixelup-secondary: #7d6757;
+  --pixelup-text: #16120f;
+  --pixelup-surface: #fff9f1;
+  --pixelup-border: rgba(213, 188, 164, 0.9);
+  --pixelup-bg: #f5ead8;
+  --pixelup-bg-strong: #efe0ca;
+  color: var(--pixelup-text);
   background:
     radial-gradient(circle at top left, rgba(214, 111, 52, 0.14), transparent 25%),
-    linear-gradient(180deg, #f5ead8 0%, #efe0ca 100%);
+    linear-gradient(180deg, var(--pixelup-bg) 0%, var(--pixelup-bg-strong) 100%);
 }
 
 * {
@@ -24,13 +31,13 @@ textarea {
   font: inherit;
 }
 
-button {
+button:not(.v-btn) {
   margin: 0.85rem 0 ;
   border: none;
   border-radius: 999px;
   padding: 0.85rem 1.2rem;
   cursor: pointer;
-  background: #c75923;
+  background: var(--pixelup-primary);
   color: white;
   font-weight: 700;
 }
@@ -81,7 +88,7 @@ textarea {
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.75rem;
-  color: #7d6757;
+  color: var(--pixelup-secondary);
 }
 
 .nav {
@@ -114,7 +121,7 @@ textarea {
 
 .card {
   background: rgba(255, 249, 241, 0.84);
-  border: 1px solid rgba(213, 188, 164, 0.9);
+  border: 1px solid var(--pixelup-border);
   border-radius: 30px;
   padding: 24px;
   box-shadow: 0 20px 40px rgba(86, 49, 22, 0.1);
@@ -126,7 +133,7 @@ textarea {
 }
 
 .metric span {
-  color: #7d6757;
+  color: var(--pixelup-secondary);
 }
 
 .metric strong {
@@ -165,7 +172,7 @@ textarea {
 }
 
 .muted {
-  color: #7d6757;
+  color: var(--pixelup-secondary);
 }
 
 .hint {
@@ -176,6 +183,19 @@ textarea {
 .error {
   color: #9b3124;
   font-weight: 600;
+}
+
+.auth-tabs {
+  margin: 12px 0 20px;
+  border: 1px solid var(--pixelup-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.auth-tabs .v-tab {
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 table {
