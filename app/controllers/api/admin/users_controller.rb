@@ -5,7 +5,7 @@ module Api
       before_action :ensure_admin!
 
       def index
-        users = User.includes(:tariff).order(:email)
+        users = User.includes(:tariff).order(:email).sort_by(&:created_at).reverse
         render json: {
           users: users.map { |user| user_payload(user) },
           tariffs: Tariff.active.map { |tariff| tariff_payload(tariff) }
